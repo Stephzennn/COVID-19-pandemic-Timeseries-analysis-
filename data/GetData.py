@@ -90,7 +90,7 @@ def getData(column='Confirmed', startDate="04-12-2020", endDate="03-09-2023"):
     print(f"Successfully loaded {len(all_data)} file(s) covering {all_dates[0]} → {all_dates[-1]}")
     return full_df
 
-df = getData(column='Deaths', startDate="04-12-2020", endDate="04-18-2021")
+df = getData(column='Deaths')
 
 print(df.head())
 
@@ -162,9 +162,9 @@ plt.plot(
     label='Daily Change'
 )
 
-plt.title('Day-to-Day Change in Average COVID-19 Confirmed Cases', fontsize=14)
+plt.title('Day-to-Day Change in Average COVID-19 Deaths', fontsize=14)
 plt.xlabel('Date', fontsize=12)
-plt.ylabel('Daily Change in Cases', fontsize=12)
+plt.ylabel('Daily Change in Deaths', fontsize=12)
 plt.axhline(0, color='gray', linestyle='--', linewidth=1) 
 plt.grid(True, linestyle='--', alpha=0.6)
 plt.legend()
