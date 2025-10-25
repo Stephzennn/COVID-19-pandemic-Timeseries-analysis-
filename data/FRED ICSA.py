@@ -2,6 +2,7 @@ from fredapi import Fred
 import pandas as pd
 
 fred = Fred(api_key='API_KEY_HERE')
+# TL's key: f9a44139decd5e780297cade865dd2eb
 
 state_mapping = {
     'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas',
@@ -28,8 +29,8 @@ for state in states:
     series_id = f'{state}ICLAIMS'
     try:
         state_claims[state] = fred.get_series(series_id,
-                                                observation_start='2020-01-01',
-                                                observation_end='2022-12-20')
+                                                observation_start='2020-02-28',
+                                                observation_end='2023-03-18')
         print(f'Successfully retrieved data for {state}')
     except:
         print(f'Failed to retrieve data for {state}')
