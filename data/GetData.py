@@ -193,11 +193,9 @@ import certifi
 
 url = "https://data.cdc.gov/resource/pwn4-m3yp.csv"
 
-# Step 1: Download using requests with certifi CA bundle
 response = requests.get(url, verify=certifi.where())
 response.raise_for_status()
 
-# Step 2: Convert to DataFrame
 from io import StringIO
 covid_cdc = pd.read_csv(StringIO(response.text))
 
