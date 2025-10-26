@@ -204,19 +204,58 @@ print(covid_cdc.head())
 
 
 
-second_col = covid_cdc.columns[0]
-print("Aggregating by:", second_col)
+first_col = covid_cdc.columns[0]
+print("Aggregating by:", first_col)
 
-byState = covid_cdc.groupby(second_col).sum(numeric_only=True)
+byState = covid_cdc.groupby(first_col).sum(numeric_only=True)
 
-byState['date_updated']
+byState.columns
+byState.index = pd.to_datetime(byState.index)
+
 import matplotlib.pyplot as plt
-plt.figure(figsize=(10, 5))
+
+plt.figure(figsize=(12, 6))
 plt.plot(
-    byState['date_updated'], 
-    byState['new_deaths'], 
-    color='orange', 
-    linewidth=2, 
-    marker='o', 
-    label='Weekly Death'
+    byState.index,
+    byState['new_deaths'],
+    color='orange',
+    linewidth=2,
+    marker='o',
+    label='COVID-19: Aggregated USA Weekly New Deaths'
 )
+
+plt.title("COVID-19: Aggregated USA Weekly New Deaths", fontsize=14)
+plt.xlabel("Date", fontsize=12)
+plt.ylabel("Number of Deaths", fontsize=12)
+plt.legend()
+
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.gca().xaxis.set_major_locator(plt.MaxNLocator(10))
+
+plt.show()
+
+
+
+plt.figure(figsize=(12, 6))
+plt.plot(
+    byState.index,
+    byState['new_cases'],
+    color='orange',
+    linewidth=2,
+    marker='o',
+    label='COVID-19: Aggregated USA Weekly New Cases'
+)
+
+plt.title("COVID-19: Aggregated USA Weekly New Cases", fontsize=14)
+plt.xlabel("Date", fontsize=12)
+plt.ylabel("Number of Cases", fontsize=12)
+plt.legend()
+
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.gca().xaxis.set_major_locator(plt.MaxNLocator(10))
+
+plt.show()
