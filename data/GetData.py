@@ -110,6 +110,7 @@ df_mean = (
 )
 
 print(df_mean.head())
+"""
 import matplotlib.pyplot as plt
 
 # Convert Date to datetime (for proper x-axis scaling)
@@ -184,3 +185,40 @@ plot_pacf(series, ax=axes[1], lags=30, title='Partial Autocorrelation (PACF)', m
 
 plt.tight_layout()
 plt.show()
+
+"""
+import requests
+import pandas as pd
+import certifi
+
+url = "https://data.cdc.gov/resource/pwn4-m3yp.csv"
+
+# Step 1: Download using requests with certifi CA bundle
+response = requests.get(url, verify=certifi.where())
+response.raise_for_status()
+
+# Step 2: Convert to DataFrame
+from io import StringIO
+covid_cdc = pd.read_csv(StringIO(response.text))
+
+print("Loaded:", covid_cdc.shape)
+print(covid_cdc.head())
+
+
+
+second_col = covid_cdc.columns[0]
+print("Aggregating by:", second_col)
+
+byState = covid_cdc.groupby(second_col).sum(numeric_only=True)
+
+byState['date_updated']
+import matplotlib.pyplot as plt
+plt.figure(figsize=(10, 5))
+plt.plot(
+    byState['date_updated'], 
+    byState['new_deaths'], 
+    color='orange', 
+    linewidth=2, 
+    marker='o', 
+    label='Weekly Death'
+)
