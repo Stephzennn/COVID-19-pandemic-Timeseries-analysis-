@@ -61,7 +61,7 @@ def getCombinedData(state='NY', column='Confirmed', startDate="04-12-2020", endD
 
     # Combine the unemployment claims and COVID series using only the dates that appear in both
     joined = pd.concat([claim, congruentDF], axis=1, join='inner')
-    joined.columns = ['claims', 'covid']  # Rename columns for clarity
+    joined.columns = ['claims', column]  # Rename columns for clarity
 
     return joined
 
