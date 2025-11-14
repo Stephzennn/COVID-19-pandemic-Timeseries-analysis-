@@ -1,8 +1,21 @@
-from GetCovidData import getData
-from FredAPIKey import fred
+import os
+parent = os.path.dirname(os.getcwd())
+data_path = os.path.join(parent, "data")
+
+import sys
+
+# Add to path if not already present
+if data_path not in sys.path:
+
+    sys.path.append(data_path)
+
+from data.GetCovidData import getData
+from data.FredAPIKey import fred
 import datetime as dt
 import pandas as pd
 import us 
+
+
 
 
 def fix_date(date_str):

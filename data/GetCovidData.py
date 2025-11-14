@@ -7,6 +7,10 @@ from datetime import datetime
 from datetime import timedelta
 import numpy as np
 
+import os
+
+
+
 def getData(column='Confirmed', startDate="04-12-2020", endDate="03-09-2023"):
     try:
         minDate = datetime.strptime("04-12-2020", "%m-%d-%Y")

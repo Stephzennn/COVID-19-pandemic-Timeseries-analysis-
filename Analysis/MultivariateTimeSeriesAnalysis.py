@@ -2,6 +2,7 @@
 
 import os
 
+"""
 os.getcwd()
 
 import os, sys
@@ -15,5 +16,10 @@ data_path
 if data_path not in sys.path:
 
     sys.path.append(data_path)
+
+#
+"""
+os.chdir("..")
+
 
 from data.GetCombinedData import getCombinedData
