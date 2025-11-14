@@ -2,7 +2,11 @@ from fredapi import Fred
 import pandas as pd
 
 fred = Fred(api_key='API_KEY_HERE')
+
+#fred = Fred(api_key='f9a44139decd5e780297cade865dd2eb')
 # TL's key: f9a44139decd5e780297cade865dd2eb
+
+from FredAPIKey import fred
 
 state_mapping = {
     'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas',
@@ -44,3 +48,4 @@ df_melted = df_state_claims.reset_index().melt(id_vars='index', var_name='Provin
 
 df_melted.rename(columns={'index': 'Date'}, inplace=True)
 df_melted.to_csv('state_unemployment_claims_long.csv', index=False)
+
