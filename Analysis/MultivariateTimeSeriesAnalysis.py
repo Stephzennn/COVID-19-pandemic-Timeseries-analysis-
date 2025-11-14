@@ -23,3 +23,8 @@ os.chdir("..")
 
 
 from data.GetCombinedData import getCombinedData
+
+
+GeorgiaCombinedData = getCombinedData(state='GA')
+
+GeorgiaCombinedData
