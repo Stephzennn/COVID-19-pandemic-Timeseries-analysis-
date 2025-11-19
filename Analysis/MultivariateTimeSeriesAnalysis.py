@@ -49,7 +49,7 @@ GeorgiaCombinedData = getCombinedData(state='GA')
 
 GeorgiaCombinedData  = GeorgiaCombinedData.set_index('claims', append=True) 
 #'Deaths', 'Recovered', 'Active'
-
+GeorgiaCombinedData.columns
 GeorgiaCombinedDataDeath = getCombinedData(state='GA',column='Deaths')
 
 GeorgiaCombinedDataDeath = GeorgiaCombinedDataDeath.set_index('claims', append=True) 
@@ -69,6 +69,7 @@ GeorgiaCombinedDataActive = GeorgiaCombinedDataActive.set_index('claims', append
 
 FinalGeorgiaCombinedData = GeorgiaCombinedData.join([GeorgiaCombinedDataDeath], how='inner')
 
+FinalGeorgiaCombinedData.head()
 """
 FinalGeorgiaCombinedData = pd.concat(
     [GeorgiaCombinedData, GeorgiaCombinedDataDeath, GeorgiaCombinedDataRecovered, GeorgiaCombinedDataActive],
@@ -88,7 +89,7 @@ FinalGeorgiaCombinedData.head()
 varModelSelect = VAR(FinalGeorgiaCombinedData).select_order(maxlags=10)
 print(varModelSelect.summary())
 
-varModel = VAR(GeorgiaCombinedData).fit(maxlags=4)
+varModel = VAR(FinalGeorgiaCombinedData).fit(maxlags=4)
 print(varModel.summary())
 
 def create_lag_equation(tsData, maxLag, colName):
