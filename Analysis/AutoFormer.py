@@ -69,18 +69,7 @@ FinalGeorgiaCombinedData = GeorgiaCombinedData.join([GeorgiaCombinedDataDeath], 
 
 FinalGeorgiaCombinedData.head()
 
-# Save to CSV
-FinalGeorgiaCombinedData.to_csv("FinalFloridaCombinedData.csv", index=True)
 
-
-
-"""
-FinalGeorgiaCombinedData = pd.concat(
-    [GeorgiaCombinedData, GeorgiaCombinedDataDeath, GeorgiaCombinedDataRecovered, GeorgiaCombinedDataActive],
-    axis=1,
-    join="inner"
-)
-"""
 
 FinalGeorgiaCombinedData = FinalGeorgiaCombinedData.reset_index()
 
@@ -89,3 +78,9 @@ FinalGeorgiaCombinedData.columns = ['Date', 'claims', 'Confirmed', 'Deaths']
 FinalGeorgiaCombinedData = FinalGeorgiaCombinedData.set_index('Date', append=True) 
 
 FinalGeorgiaCombinedData.head()
+
+# Save to CSV
+
+# If the csv exists, skip the following line
+
+#FinalGeorgiaCombinedData.to_csv("FinalFloridaCombinedData.csv", index=True)
