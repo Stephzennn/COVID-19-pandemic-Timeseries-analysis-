@@ -2,10 +2,15 @@
 
 import os
 
-os.chdir("..")
+os.chdir(".")
 
+
+
+import sys, os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import sys
+
 import os
 from pathlib import Path
 
@@ -13,6 +18,8 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+#cd "D:\machine_problems\TOP\OMSCS Time series analysis\Final_Project\COVID-19-pandemic-Timeseries-analysis-"
+#python Analysis\FullImport.py
 
 from data.GetCombinedData import getCombinedData
 
@@ -60,3 +67,5 @@ FinalGeorgiaCombinedData.head()
 # If the csv exists, skip the following line
 
 FinalGeorgiaCombinedData.to_csv("FinalFloridaCombinedData.csv", index=True)
+
+#"""
