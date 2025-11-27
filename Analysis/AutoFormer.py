@@ -31,14 +31,17 @@ def evaluate_performance(true, pred, model_name="Model"):
     print("-" * 40)
     return mspe, mae, mape, pm
 
-FinalFloridaCombinedData = pd.read_csv("FinalFloridaCombinedData.csv")
+FinalFloridaCombinedData = pd.read_csv("Final_GA_CombinedData.csv")
 
 
 df = FinalFloridaCombinedData.copy()
 df['ds'] = df.index
 df['unique_id'] = 'series_1'
 df = df.rename(columns=lambda x: x.strip())  
-df = df.drop(columns=['Unnamed: 0'])  
+try:
+    df = df.drop(columns=['Unnamed: 0'])  
+except:
+    x =1 
 
 df['ds'] = pd.to_datetime(df['Date'])
 df = df.drop(columns=['Date'])
@@ -62,6 +65,8 @@ test  = df.iloc[int(n*0.85):]
 print("Train:", train.shape)
 print("Val:",   val.shape)
 print("Test:",  test.shape)
+
+train.head()
 
 
 
@@ -259,8 +264,9 @@ model = Autoformer(
     decoder_layers=dec_layers,
     loss=MAE(),
     futr_exog_list=None,
-    stat_exog_list=None,
-    hist_exog_list = futr_cols,
+    stat_exog_list=futr_cols,
+    
+    #hist_exog_list = ,
     scaler_type='robust',
     learning_rate=lr,
     max_steps=200,
