@@ -105,7 +105,7 @@ for hidden_size in hidden_sizes:
                             
                             futr_exog_list=None,   
                             stat_exog_list=None,
-
+                            
                             scaler_type='robust',
                             learning_rate=lr,
                             max_steps=200,
@@ -260,6 +260,7 @@ model = Autoformer(
     loss=MAE(),
     futr_exog_list=None,
     stat_exog_list=None,
+    hist_exog_list = futr_cols,
     scaler_type='robust',
     learning_rate=lr,
     max_steps=200,
