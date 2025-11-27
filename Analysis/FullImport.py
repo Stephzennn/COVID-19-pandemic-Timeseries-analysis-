@@ -27,10 +27,15 @@ State = 'FL'
 
 GeorgiaCombinedData = getCombinedData(state=State)
 
+
+
 GeorgiaCombinedData  = GeorgiaCombinedData.set_index('claims', append=True) 
 #'Deaths', 'Recovered', 'Active'
-GeorgiaCombinedData.columns
-GeorgiaCombinedDataDeath = getCombinedData(state=State,column='Deaths')
+#GeorgiaCombinedData.columns
+GeorgiaCombinedDataDeath = getCombinedData(state=State,column= ['Deaths' 'Recovered' ,'Active'])
+
+
+GeorgiaCombinedDataDeath.head()
 
 GeorgiaCombinedDataDeath = GeorgiaCombinedDataDeath.set_index('claims', append=True) 
 
@@ -68,4 +73,3 @@ FinalGeorgiaCombinedData.head()
 
 FinalGeorgiaCombinedData.to_csv("FinalFloridaCombinedData.csv", index=True)
 
-#"""

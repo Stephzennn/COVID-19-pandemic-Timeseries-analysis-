@@ -42,6 +42,7 @@ def getData(column='Confirmed', startDate="04-12-2020", endDate="03-09-2023"):
             all_data.append(df)
             all_dates.append(day.strftime("%m-%d-%Y"))
             provinces_union.update(df['Province_State'])
+
         except Exception as e:
             print(f"Skipping {day.strftime('%m-%d-%Y')} — {type(e).__name__}: {e}")
             continue
