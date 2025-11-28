@@ -63,7 +63,7 @@ train.head()
 
 config = dict(
     input_size=7,
-    hist_exog_list=futr_cols,
+    hist_exog_list=[],
     stat_exog_list=[],
     futr_exog_list=[]
 )

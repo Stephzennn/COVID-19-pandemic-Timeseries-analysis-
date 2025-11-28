@@ -50,9 +50,17 @@ df['ds'] = pd.to_datetime(df['ds'].dt.date)
 # Sometimes the first day is excluded; shift +1 day
 df['ds'] = pd.to_datetime(df['ds']) + pd.to_timedelta(1, unit='D')
 
-# Target column for NeuralForecast:
-df = df.rename(columns={'claims': 'y'})
+# Target column claims:
+#df = df.rename(columns={'claims': 'y'})
 
+# Target column 'Confirmed'
+#df = df.rename(columns={'Confirmed': 'y'})
+
+# Target column 'Deaths'
+df = df.rename(columns={'Deaths': 'y'})
+
+
+df = df.drop(columns=['Active'])
 # FUTURE EXOGENOUS VARIABLES
 futr_cols = ['Deaths', 'Confirmed']  
 
@@ -264,7 +272,7 @@ model = Autoformer(
     decoder_layers=dec_layers,
     loss=MAE(),
     futr_exog_list=None,
-    stat_exog_list=futr_cols,
+    stat_exog_list=None,
     
     #hist_exog_list = ,
     scaler_type='robust',
@@ -364,3 +372,92 @@ plt.legend()
 plt.grid(True)
 plt.tight_layout()
 plt.show()
+
+"""
+#FOR CONFIRMED CASES
+# ================= PLOT: LAST TRAIN + VAL + TEST =================
+last_n_train = 30
+train_zoom = train.iloc[-last_n_train:]
+
+plt.figure(figsize=(14, 6))
+
+# Actual segments
+plt.plot(train_zoom['ds'], train_zoom['y'], label='Train (Tail)', alpha=0.8)
+plt.plot(val['ds'], val['y'], label='Validation', alpha=0.8)
+plt.plot(test['ds'], test['y'], label='Test Actual', alpha=0.8)
+
+# Forecast
+plt.plot(test_forecast['ds'], test_forecast['Autoformer'],
+         label='Forecast (Test)', linewidth=2)
+
+# Confidence Intervals
+if 'Autoformer-lo-90' in rolling_preds.columns:
+    merged_ci = test.merge(
+        rolling_preds[['ds', 'Autoformer-lo-90', 'Autoformer-hi-90']],
+        on='ds', how='left'
+    )
+    plt.fill_between(
+        merged_ci['ds'],
+        merged_ci['Autoformer-lo-90'],
+        merged_ci['Autoformer-hi-90'],
+        alpha=0.2, label='90% CI'
+    )
+
+plt.axvline(val['ds'].iloc[0], linestyle='--', color='gray', alpha=0.8)
+plt.axvline(test['ds'].iloc[0], linestyle='--', color='gray', alpha=0.8)
+
+# Updated labels
+plt.title(f'Confirmed Cases: Train Tail + Validation + Test Forecast\n{model_name}')
+plt.xlabel('Date')
+plt.ylabel('Confirmed Cases')
+
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+"""
+
+
+"""
+# FOR DEATHS
+# ================= PLOT: LAST TRAIN + VAL + TEST (Deaths) =================
+last_n_train = 30
+train_zoom = train.iloc[-last_n_train:]
+
+plt.figure(figsize=(14, 6))
+
+# Actual segments
+plt.plot(train_zoom['ds'], train_zoom['y'], label='Train Deaths (Tail)', alpha=0.8)
+plt.plot(val['ds'], val['y'], label='Validation Deaths', alpha=0.8)
+plt.plot(test['ds'], test['y'], label='Test Actual Deaths', alpha=0.8)
+
+# Forecast
+plt.plot(test_forecast['ds'], test_forecast['Autoformer'],
+         label='Forecasted Deaths (Test)', linewidth=2)
+
+# Confidence Intervals
+if 'Autoformer-lo-90' in rolling_preds.columns:
+    merged_ci = test.merge(
+        rolling_preds[['ds', 'Autoformer-lo-90', 'Autoformer-hi-90']],
+        on='ds', how='left'
+    )
+    plt.fill_between(
+        merged_ci['ds'],
+        merged_ci['Autoformer-lo-90'],
+        merged_ci['Autoformer-hi-90'],
+        alpha=0.2, label='90% CI (Deaths)'
+    )
+
+plt.axvline(val['ds'].iloc[0], linestyle='--', color='gray', alpha=0.8)
+plt.axvline(test['ds'].iloc[0], linestyle='--', color='gray', alpha=0.8)
+
+# Updated labels for Deaths
+plt.title(f'Deaths: Train Tail + Validation + Test Forecast\n{model_name}')
+plt.xlabel('Date')
+plt.ylabel('Deaths')
+
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+"""
