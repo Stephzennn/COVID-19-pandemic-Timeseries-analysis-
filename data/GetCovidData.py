@@ -34,6 +34,8 @@ def getData(column='Confirmed', startDate="04-12-2020", endDate="03-09-2023"):
             + day.strftime("%m-%d-%Y") + ".csv"
         )
         try:
+            
+            #column=['Deaths', 'Recovered', 'Active']
             df = pd.read_csv(url)
             if column not in df.columns:
                 print(f"{day.strftime('%m-%d-%Y')} missing '{column}' column.")
@@ -42,6 +44,32 @@ def getData(column='Confirmed', startDate="04-12-2020", endDate="03-09-2023"):
             all_data.append(df)
             all_dates.append(day.strftime("%m-%d-%Y"))
             provinces_union.update(df['Province_State'])
+
+            """
+            requested_cols = ['Deaths', 'Recovered', 'Active']
+            df = pd.read_csv(url)
+
+            # Filter to existing requested columns
+            existing_cols = [c for c in requested_cols if c in df.columns]
+            
+            if not existing_cols:
+                print(f"{day.strftime('%m-%d-%Y')} missing all requested columns: {requested_cols}")
+                continue
+
+            # Select Province_State plus existing columns
+            df = df[['Province_State'] + existing_cols]
+
+            # Rename: append date suffix to each metric column
+            rename_map = {
+                c: f"{c}_{day.strftime('%m-%d-%Y')}" for c in existing_cols
+            }
+            df.rename(columns=rename_map, inplace=True)
+
+            # Append results
+            all_data.append(df)
+            all_dates.append(day.strftime("%m-%d-%Y"))
+            provinces_union.update(df['Province_State'])
+            """
         except Exception as e:
             print(f"Skipping {day.strftime('%m-%d-%Y')} — {type(e).__name__}: {e}")
             continue
@@ -61,3 +89,8 @@ def getData(column='Confirmed', startDate="04-12-2020", endDate="03-09-2023"):
 
     print(f"Successfully loaded {len(all_data)} file(s) covering {all_dates[0]} → {all_dates[-1]}")
     return full_df
+
+
+p = getData('Confirmed')
+
+p.head()
