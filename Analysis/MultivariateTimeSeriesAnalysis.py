@@ -16,80 +16,32 @@ import matplotlib.pyplot as plt
 
 
 # Load Time Series Analysis Packages
-from statsmodels.graphics.tsaplots import plot_accf_grid
-from statsmodels.tsa.stattools import adfuller, kpss
 from statsmodels.tsa.api import VAR
-from statsmodels.stats.diagnostic import acorr_ljungbox
-from statsmodels.tsa.arima.model import ARIMA
-from tqdm import tqdm
-from joblib import Parallel, delayed
-from sklearn.metrics import r2_score
-from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 import warnings
-import statsmodels.api as sm
-import statsmodels.stats.api as sms
-from statsmodels.gam.api import GLMGam
-from scipy import stats
-from scipy.stats import chi2
 import statsmodels.formula.api as smf
-from statsmodels.stats.diagnostic import het_arch
-from statsmodels.stats.stattools import jarque_bera
+
 
 warnings.filterwarnings("ignore", category=UserWarning, module='statsmodels')
 warnings.filterwarnings("ignore", category=RuntimeWarning, module='statsmodels')
 warnings.filterwarnings("ignore", category=FutureWarning, module='statsmodels')
 
-from data.GetCombinedData import getCombinedData
+#from data.GetCombinedData import getCombinedData
 
 
 
+FinalFloridaCombinedData = pd.read_csv("Final_GA_CombinedData.csv")
+
+FinalFloridaCombinedData.head()
+
+FinalFloridaCombinedData = FinalFloridaCombinedData.drop(columns=["Active"])
+
+FinalFloridaCombinedData = FinalFloridaCombinedData.set_index('Date', append=True) 
 
 
-GeorgiaCombinedData = getCombinedData(state='GA')
-
-GeorgiaCombinedData  = GeorgiaCombinedData.set_index('claims', append=True) 
-#'Deaths', 'Recovered', 'Active'
-GeorgiaCombinedData.columns
-GeorgiaCombinedDataDeath = getCombinedData(state='GA',column='Deaths')
-
-GeorgiaCombinedDataDeath = GeorgiaCombinedDataDeath.set_index('claims', append=True) 
-
-
-GeorgiaCombinedDataRecovered = getCombinedData(state='GA', column='Recovered')
-
-
-GeorgiaCombinedDataRecovered = GeorgiaCombinedDataRecovered.set_index('claims', append=True) 
-
-
-GeorgiaCombinedDataActive = getCombinedData(state='GA', column='Active')
-
-GeorgiaCombinedDataActive = GeorgiaCombinedDataActive.set_index('claims', append=True) 
-
-
-
-FinalGeorgiaCombinedData = GeorgiaCombinedData.join([GeorgiaCombinedDataDeath], how='inner')
-
-FinalGeorgiaCombinedData.head()
-"""
-FinalGeorgiaCombinedData = pd.concat(
-    [GeorgiaCombinedData, GeorgiaCombinedDataDeath, GeorgiaCombinedDataRecovered, GeorgiaCombinedDataActive],
-    axis=1,
-    join="inner"
-)
-"""
-
-FinalGeorgiaCombinedData = FinalGeorgiaCombinedData.reset_index()
-
-FinalGeorgiaCombinedData.columns = ['Date', 'claims', 'Confirmed', 'Deaths']
-
-FinalGeorgiaCombinedData = FinalGeorgiaCombinedData.set_index('Date', append=True) 
-
-FinalGeorgiaCombinedData.head()
-
-varModelSelect = VAR(FinalGeorgiaCombinedData).select_order(maxlags=10)
+varModelSelect = VAR(FinalFloridaCombinedData).select_order(maxlags=10)
 print(varModelSelect.summary())
 
-varModel = VAR(FinalGeorgiaCombinedData).fit(maxlags=4)
+varModel = VAR(FinalFloridaCombinedData).fit(maxlags=4)
 print(varModel.summary())
 
 def create_lag_equation(tsData, maxLag, colName):
@@ -142,8 +94,7 @@ def step_backward_helper(system, terms, colName, excludeTerm):
 
 
 ### Stepwise Regression
-
-coef_Claims = step(GeorgiaCombinedData, steps=5, maxLag=2, colName='claims') 
+coef_Claims = step(FinalFloridaCombinedData, steps=5, maxLag=2, colName='claims') 
 print(f"Claims Model {coef_Claims}")
-coef_Covid = step(GeorgiaCombinedData, steps=5, maxLag=2, colName='covid') 
+coef_Covid = step(FinalFloridaCombinedData, steps=5, maxLag=2, colName='Confirmed') 
 print(f"Covid Model {coef_Covid}")
