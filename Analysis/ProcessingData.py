@@ -3,19 +3,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 import warnings
 warnings.filterwarnings('ignore')
+import yaml
 
 # ============================================
-# CONFIGURATION
+# CONFIGURATION & Dynamic Splitting Function
 # ============================================
 
 CONFIG = {
     'input_file': 'FL_GA_NY.csv',
-    'test_weeks': 12,  # Last 12 weeks for testing
+    'test_weeks': 16,  # Last 16 weeks for testing
     'date_column': 'Date',
     'state_column': 'Province_State',
     'confirmed_column': 'Confirmed',
     'deaths_column': 'Deaths',
-    'claims_column': 'claims',  # Adjust if different
+    'claims_column': 'claims', 
     'recovered_column': 'Recovered', 
     'active_column': 'Active',  
     'output_wide': 'multi_state_panel_wide.csv',
@@ -55,7 +56,7 @@ print(f"{'='*80}")
 # Get unique states from Province_State column
 states = sorted(df[CONFIG['state_column']].unique())
 
-print(f"\n🔍 AUTO-DETECTED STATES: {states}")
+print(f"\n AUTO-DETECTED STATES: {states}")
 print(f"   Found {len(states)} states in dataset")
 
 # Count observations per state

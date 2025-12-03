@@ -1,10 +1,14 @@
+import warnings
+warnings.filterwarnings("ignore")
 import pandas as pd
 import statsmodels.api as sm
+import matplotlib.pyplot as plt
+
 
 # -----------------------------
 # 1. Load data
 # -----------------------------
-df = pd.read_csv('/mnt/data/FinalFloridaCombinedData.csv')
+df = pd.read_csv('FinalFloridaCombinedData.csv')
 
 # Convert date column
 df['Date'] = pd.to_datetime(df['Date'])
@@ -49,7 +53,6 @@ print(results.summary())
 # 4. Forecasting next 4 weeks
 #
 # ----------------------------------------------------------
-gi
 # Example future values (replace with actual future estimates!)
 future_X = pd.DataFrame({
     'New_Confirmed': [1000, 1200, 900, 800],
@@ -64,3 +67,17 @@ forecast = results.predict(
 
 print("\n4-week forecast of unemployment claims:")
 print(forecast)
+
+
+def save_text_as_png(text, filename):
+    plt.figure(figsize=(8, 6))
+    plt.text(0.01, 0.99, text, fontsize=10, va='top', family='monospace')
+    plt.axis('off')
+    plt.savefig(filename, dpi=300, bbox_inches='tight')
+    plt.close()
+
+summary_text = results.summary().as_text()
+save_text_as_png(summary_text, "sarimax_summary.png")
+
+forecast_df = pd.DataFrame({"forecast": forecast})
+save_text_as_png(forecast_df.to_string(), "forecast_output.png")
