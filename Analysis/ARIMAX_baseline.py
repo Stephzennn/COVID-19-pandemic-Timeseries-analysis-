@@ -484,6 +484,3 @@ if successful_states > 0:
             print(f"    arimax_forecast_{state}.csv")
     print(f"    arimax_forecasts.png")
     print(f"    arimax_diagnostics.png")
-
-
-print(" ARIMAX BASELINE COMPLETE!")
