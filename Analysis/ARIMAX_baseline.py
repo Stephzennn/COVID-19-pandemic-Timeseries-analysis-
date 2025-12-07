@@ -189,7 +189,8 @@ for state in states:
         mae = mean_absolute_error(y_test, forecast)
         rmse = np.sqrt(mean_squared_error(y_test, forecast))
         
-        smape = np.mean(2 * np.abs(forecast - y_test) / (np.abs(y_test) + np.abs(forecast))) * 100
+        
+        mape = np.mean(np.abs((y_test.values - forecast.values) / y_test.values)) * 100
         r2 = r2_score(y_test, forecast)
         
         # Direction accuracy
@@ -206,7 +207,7 @@ for state in states:
             'test_dates': test_data['date'],
             'MAE': mae,
             'RMSE': rmse,
-            'MAPE': smape,
+            'MAPE': mape,
             'R2': r2,
             'Direction_Acc': direction_acc,
             'AIC': fitted_model.aic,
@@ -249,7 +250,7 @@ for state in states:
             rmse = np.sqrt(mean_squared_error(y_test, forecast))
             
             # Replace MAPE calculation with SMAPE
-            smape = np.mean(2 * np.abs(forecast - y_test) / (np.abs(y_test  ) + np.abs(forecast))) * 100
+            mape = np.mean(np.abs((y_test.values - forecast.values) / y_test.values)) * 100
             r2 = r2_score(y_test, forecast)
             
             actual_direction = np.sign(np.diff(y_test.values))
@@ -264,12 +265,12 @@ for state in states:
                 'test_dates': test_data['date'],
                 'MAE': mae,
                 'RMSE': rmse,
-                'MAPE': smape,
+                'MAPE': mape,
                 'R2': r2,
                 'Direction_Acc': direction_acc,
                 'AIC': fitted_model.aic,
                 'BIC': fitted_model.bic,
-                'note': 'Simplified model (1,1,1) with no seasonality'
+                'note': 'ARIMAX model (3,1,3) with no seasonality'
             }
             
             print(f" Simpler model fitted successfully")
