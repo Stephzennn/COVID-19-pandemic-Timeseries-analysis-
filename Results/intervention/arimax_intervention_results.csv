@@ -1,4 +1,0 @@
-State,Model,MAE,RMSE,R2,MAPE,Direction_Acc,AIC,BIC,Converged
-FL,ARIMAX_Intervention,,,,,,,,False
-GA,ARIMAX_Intervention,,,,,,,,False
-NY,ARIMAX_Intervention,,,,,,,,False
