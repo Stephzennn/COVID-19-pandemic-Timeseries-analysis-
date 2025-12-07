@@ -12,16 +12,20 @@ FinalFloridaCombinedData = pd.read_csv("FinalFloridaCombinedData.csv")
 
 FinalGeorgiaCombinedData = pd.read_csv("Final_GA_CombinedData.csv")
 
+FinalNewYorkCombinedData = pd.read_csv("Final_NY_CombinedData.csv")
+
 
 cols_to_keep = ["Date", "claims", "Confirmed", "Deaths"]
 
 FinalFloridaCombinedData = FinalFloridaCombinedData[cols_to_keep]
 FinalGeorgiaCombinedData = FinalGeorgiaCombinedData[cols_to_keep]
+FinalNewYorkCombinedData = FinalNewYorkCombinedData[cols_to_keep]
 
 
 FinalFloridaCombinedData['Date'] = pd.to_datetime(FinalFloridaCombinedData['Date'])
 FinalGeorgiaCombinedData['Date'] = pd.to_datetime(FinalGeorgiaCombinedData['Date'])
 
+FinalNewYorkCombinedData['Date'] = pd.to_datetime(FinalNewYorkCombinedData['Date'])
 
 
 def create_summary_table(df, state_name):
@@ -49,6 +53,7 @@ def create_summary_table(df, state_name):
 # Generate summaries
 fl_summary = create_summary_table(FinalFloridaCombinedData, 'Florida')
 ga_summary = create_summary_table(FinalGeorgiaCombinedData, 'Georgia')
+ny_summary = create_summary_table(FinalNewYorkCombinedData, 'New york')
 
 # Display 
 fl_summary
@@ -57,3 +62,4 @@ fl_summary
 # to CSV files
 fl_summary.to_csv("Florida_Summary_Table.csv", index=False)
 ga_summary.to_csv("Georgia_Summary_Table.csv", index=False)
+ny_summary.to_csv("New_York_Summary_Table.csv", index=False)
